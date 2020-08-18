@@ -263,7 +263,7 @@ void thinksuic(void);
 void thinkloser(void);
 void thinkatom(void);
 void printboard(void);
-void matt(void);
+void matt(int);
 void controltime(int t);
 void ladebuch(void);
 void heintrag(int k);
