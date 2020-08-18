@@ -2,7 +2,7 @@
 #-DUNIX for Unix/Unicos/Linux systems, for Dos/Win remove this
 
 CC     = gcc 
-CFLAGS = -O2 -DUNIX
+CFLAGS = -O3 -DUNIX
 
 DLLIBS = 
 DLOBJS = main.o
@@ -10,4 +10,4 @@ DLOBJS = main.o
 olipow: $(DLOBJS) $(OBJS)
 	gcc $(CFLAGS) -o olipow $(DLOBJS) $(DLLIBS)
 
-$(DLOBJS): main.h Makefile suic.c atom.c loser.c
+$(DLOBJS): main.h Makefile

@@ -12,62 +12,51 @@
 #include "main.h"   /* OliPow Version 2.2e (c) Oliver Brausch, 27.August.97 */
 #endif
 
-#include "suic.c"
+/*#include "suic.c"
 #include "loser.c"
-#include "atom.c"
+#include "atom.c"*/
 
 
 void main(int argc, char **argv)
 {
+  int iszug = 0;
   initchess(argc,argv);
   if (--prompt==0)
     printf("OliPow - Chess\n");printboard();
   while (-1)
   {
    debug=0;
+   iszug = 0;
    numhalbz++;
    if (dran!=compfarbe)
      {
-        eingzug(argc,argv);
-	if (debug==0) 
-        { if (type==TYPES)
-           makemovesuic(kllz);
-          if (type==TYPEL)
-           makemoveloser(kllz);
-          if (type==TYPEA)
-           makemoveatom(kllz);
-          if (type==TYPEN)
-           makemove(kllz);
-          heintrag(kllz);
-        }
+        iszug = eingzug(argc,argv);
+		if (iszug == 1) {
+			if (debug==0) 
+			{ 
+			  makemove(kllz);
+			  heintrag(kllz);
+			}
+		}
         if (numhalbz<=2 && debug==2 && opening==1) ladebuch();
       }
-   else
+      else
       {
         if (opening==1) buch();
-        if (opening==0)
-        { if (type==TYPES)
-            thinksuic();
-          if (type==TYPEL)
-            thinkloser();
-          if (type==TYPEA)
-            thinkatom();
-          if (type==TYPEN)
-            think();
+        if (opening==0) {   
+			think();
         }
-	ausgzug();
-         if (type==TYPES)
-          makemovesuic(kllz);
-         if (type==TYPEA)
-          makemoveatom(kllz);
-         if (type==TYPEL)
-          makemoveloser(kllz);
-         if (type==TYPEN)
-          makemove(kllz);
+		iszug = 1;
+	    ausgzug();
+        makemove(kllz);
         heintrag(kllz);
      }
-     dran*=WECHSEL;
-     if (debug!=2) printboard(); 
+	   if (iszug == 1) {
+		 dran*=WECHSEL;
+		 if (debug!=2) printboard(); 
+	   } else {
+		   numhalbz--;
+	   }
   }
 }
 
@@ -112,8 +101,8 @@ void initchess(int argc, char **argv)
   pawnrank[3][2]=8;pawnrank[8][0]=8;
   piecec[0]=piecec[2]=16;
   pawnc[0]=pawnc[2]=8;
-  if (type==TYPEL) { piecec[0]--;piecec[2]--;transboardloser();}
-  if (type==TYPES) transboard();
+/*  if (type==TYPEL) { piecec[0]--;piecec[2]--;transboardloser();}
+  if (type==TYPES) transboard();*/
 }
             
 void editboard(void)
@@ -130,8 +119,8 @@ void editboard(void)
     if (s[0]=='c') { setzfarbe*=WECHSEL; }
     if (s[0]=='.') { if (material==0) 
                      { ner=-5;rochiert[0]=rochiert[2]=0; } 
-                     if (type==TYPES) transboard();
-                     if (type==TYPEL) transboardloser();
+                     /*if (type==TYPES) transboard();
+                     if (type==TYPEL) transboardloser();*/
                      return;
                    }
     if (s[0]=='P') { piece=WP*setzfarbe; 
@@ -149,11 +138,11 @@ void editboard(void)
       piecec[setzfarbe+1]++;
       Board[(s[1]-96)+(s[2]-47)*10]=piece;
       ner=ZUFEND;
-      if (type==TYPES)
+/*      if (type==TYPES)
         material+=suicmat(piece);
       else if (type==TYPEL)
              material+=losermat(piece);
-           else
+           else*/
              material+=piece;
     }
   }
@@ -234,13 +223,13 @@ int myget(void)
 void buch(void)
 { int i,j=0,anz,mgl[NUMOPENW];
   int legals[MAXMGL],legalz[MAXMGL],kil[MAXMGL];
-  if (type==TYPES)
+/*  if (type==TYPES)
     anz=gensuic(&legals[0],&legalz[0],&kil[0],-1);
   if (type==TYPEL)
     anz=genloser(&legals[0],&legalz[0],&kil[0],-1);
   if (type==TYPEA)
     anz=genatom(&legals[0],&legalz[0],&kil[0],-1);
-  if (type==TYPEN)
+  if (type==TYPEN)*/
     anz=legalezuege(&legals[0],&legalz[0],&kil[0],-1);
   for (i=0;i<NUMOPEN;i++) 
   { if (Of[i]==1) { mgl[j]=i;j++;ezug=szug+zug; } }
@@ -961,7 +950,7 @@ void TermSearch(int sig) {abbruch=2;}
 
 void Die(int sig) {exit(0);}
 
-void eingzug(int argc, char **argv)
+int eingzug(int argc, char **argv)
 {
   int i,j,anz,efl,ti,r1,r2;
   int legals[MAXMGL];
@@ -969,13 +958,13 @@ void eingzug(int argc, char **argv)
   int kil[MAXMGL];
   char eingabe[32],s[32],e0,e1,e2,e3,e4;
   if (!CHECK) {i=rochiert[0];j=rochiert[2];rochiert[0]=rochiert[2]=0;}
-  if (type==TYPES)
+/*  if (type==TYPES)
     anz=gensuic(&legals[0],&legalz[0],&kil[0],-1);
   if (type==TYPEL)
     anz=genloser(&legals[0],&legalz[0],&kil[0],-1);
   if (type==TYPEA)
     anz=genatom(&legals[0],&legalz[0],&kil[0],-1);
-  if (type==TYPEN)
+  if (type==TYPEN)*/
     anz=legalezuege(&legals[0],&legalz[0],&kil[0],-1);
   lzz=anz;
   if (!CHECK) {rochiert[0]=i;rochiert[2]=j;}
@@ -988,10 +977,19 @@ void eingzug(int argc, char **argv)
   gets(eingabe);for (i=0;i<32;i++) s[i]=eingabe[i];
   if(feof(stdin)||ferror(stdin)||ferror(stdout)) Die(0);
   e0=eingabe[0];e1=eingabe[1];e2=eingabe[2];e3=eingabe[3];e4=eingabe[4];
+  if (e0=='x' && e1=='b' && e2=='o') {printf("feature myname=\"OliPow 2.2e\" colors=0 done=1\n"); fflush(stdout); xboard=1; }
   if (e0=='q') if (e1=='u' && e2=='i') exit(0);
-  if (e0=='f') if (e1=='o' && e2=='r') 
-     { gets(eingabe);e0=eingabe[0];e1=eingabe[1];e2=eingabe[2];
-       if (e0=='a') {compfarbe=1;dran=1;eingabe[0]='&';}}
+  if (e0=='f') if (e1=='o' && e2=='r') compfarbe=0;
+  if (e0=='g') if (e1=='o') compfarbe = dran;
+  if (e0=='p' && e1=='o' && e2=='s') { showpv=1;}
+  if (e0=='n' && e1=='o' && e2=='p') { showpv=0;}
+  if (e0=='n' && e1=='e' && e2=='w') { 
+	initchess(argc, argv);  
+    dran = 1; compfarbe = -1;
+	opening=OPENBIB; material=0; ply=0; endspiel=0; smat=0;
+	numhalbz=1;
+  }
+
   if (e0=='#') if (e1=='\0') 
      { editboard();printboard();fflush(stdout);}
   if (e0=='t') if (e1=='i') 
@@ -1000,11 +998,7 @@ void eingzug(int argc, char **argv)
      { sscanf(eingabe+5,"%d",&otim); }
   if (e0=='u') if (e1=='n') { debug=1;
        dran*=WECHSEL; numhalbz--; takeback();
-       compfarbe*=WECHSEL; dran*=WECHSEL;numhalbz--;return;}
-  if (e0=='b') if (e1=='l') {compfarbe=-1;force=0;}
-  if (e0=='w') if (e1=='h') {compfarbe=1;force=0;}
-  if (e0=='g') if (e1=='o') 
-     { debug=2;numhalbz--;dran*=WECHSEL;return; }
+       compfarbe*=WECHSEL; dran*=WECHSEL;numhalbz--;return 0;}
   if (e0=='r') if(e1=='a') 
      { sscanf(eingabe+7,"%d %d",&r1,&r2);ratdiff=r2-r1;}
   if (e0=='T') if(e1=='Y') 
@@ -1015,7 +1009,7 @@ void eingzug(int argc, char **argv)
        if (s[0]=='l' && s[1]=='i') { maxt=MAXLIGHT; }
        if (s[0]=='B' && s[1]=='u') { maxt=MAXLIGHT; }
      }
-  if (e0<'a' || e0>'h' || e1<'1' || e1>'8' || force==1) eingzug(argc,argv); 
+  if (e0<'a' || e0>'h' || e1<'1' || e1>'8') return 0; 
   else
   {
     e0-=96; e1-=47; e2-=96; e3-=47;
@@ -1038,6 +1032,7 @@ void eingzug(int argc, char **argv)
 #if ATOMICDIS
   displayexplode(s);
 #endif
+	return 1;
   }
 }
 
@@ -1082,7 +1077,7 @@ void printboard(void)
    }  printf("\n"); 
   }
   printf(" material %d blpiec %d whpiec %d blpawn %d whpawn %d \n",material,piecec[0],piecec[2],pawnc[0],pawnc[2]);
-  zugspec=0;printf(" instant value %d for white \n",dran*evalsuic(0,0)); fflush(stdout);
+  zugspec=0;printf(" instant value %d for white \n",dran/**evalsuic(0,0)*/); fflush(stdout);
 }
 
 int quiesce(int alpha,int beta,int anz,int anz2,int kfl)

@@ -1,2 +1,2 @@
-gtar -cvzf olipow.tgz main.c suic.c atom.c loser.c main.h Makefile white*.bin black*.bin readme.txt bundle
+gtar -cvzf olipow.tgz main.c main.h Makefile white*.bin black*.bin readme.txt bundle
 cp olipow.tgz /tmp/

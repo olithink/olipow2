@@ -166,7 +166,7 @@ int showpv=0;
 int resign=RESIGN;
 char whitebook[4][11]={"white.bin","whites.bin","whitel.bin","whitea.bin"};
 char blackbook[4][11]={"black.bin","blacks.bin","blackl.bin","blacka.bin"};
-int compfarbe=COLOR,maxtiefe,rep=0,force=0,ruhe,wold=0,Skill,debug=0;
+int compfarbe=COLOR,maxtiefe,rep=0,/*force=0,*/ruhe,wold=0,Skill,debug=0;
 int permbrain=0,Sdepth=1,Swert,Snach[MAXTIEF],Svon[MAXTIEF];
 int dran=1,zug,szug,ezug,kllz,nm,NMAX=300000,TMAX,EDFLAG=0,xboard=XDEB;
 int zugtiefe,numhalbz=0,opening=OPENBIB,ner,otim=0,ratdiff=0,material=0;
@@ -248,7 +248,7 @@ const int Zentrum[BDIM] = {
 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0};
 
 void initchess(int argc, char **argv);
-void eingzug(int argc, char **argv);
+int eingzug(int argc, char **argv);
 void ausgzug(void);
 void makemove(int kilflag);
 void takeback(void);
