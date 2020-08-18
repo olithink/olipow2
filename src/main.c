@@ -173,6 +173,7 @@ if (type==TYPEA)  /* mini Atomic book 1. Nf3/h3 1...f6 !*/
 { if (compfarbe==-1) { fp=fopen(blackbook[type],"rb"); NUMOPEN=NUMOPENB; }
                 else { fp=fopen(whitebook[type],"rb"); NUMOPEN=NUMOPENW; }
 }
+if (!fp) return;
   for (i=st;i<NUMOPEN;i++)
   { if (feof(fp)) { NUMOPEN=i-1;break; }
     for (j=1;j<=60;j++)
