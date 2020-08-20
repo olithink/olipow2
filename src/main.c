@@ -46,6 +46,7 @@ void main(int argc, char **argv)
         if (opening==0) {   
 			think();
         }
+		if (!compfarbe) continue;
 		iszug = 1;
 	    ausgzug();
         makemove(kllz);
@@ -281,7 +282,7 @@ void think(void)
     else { beta=alpha+WIND;alpha-=WIND; }
     legalanzahl=legalezuege(&legals[0],&legalz[0],&kil[0],-1);
 
-    if (legalanzahl==0) matt(1);
+    if (legalanzahl==0) { matt(1); return; }
 
   if (legalanzahl>ONEDEBUG) 
   { for (i=0;i<legalanzahl;i++)
@@ -969,16 +970,16 @@ int eingzug(int argc, char **argv)
     anz=legalezuege(&legals[0],&legalz[0],&kil[0],-1);
   lzz=anz;
   if (!CHECK) {rochiert[0]=i;rochiert[2]=j;}
-  if (anz==0) matt(0);
+  //if (anz==0) matt(0);
   if (type==TYPEL) { if (piecec[2]==0 || piecec[0]==0) matt(0); }
   signal(SIGINT,TermSearch);
 #ifdef UNIX
   signal(SIGQUIT,Die);
 #endif
-  gets(eingabe);for (i=0;i<32;i++) s[i]=eingabe[i];
+in:  gets(eingabe);for (i=0;i<32;i++) s[i]=eingabe[i];
   if(feof(stdin)||ferror(stdin)||ferror(stdout)) Die(0);
   e0=eingabe[0];e1=eingabe[1];e2=eingabe[2];e3=eingabe[3];e4=eingabe[4];
-  if (e0=='x' && e1=='b' && e2=='o') {printf("feature myname=\"OliPow 2.2.2\" colors=0 done=1\n"); fflush(stdout); xboard=1; }
+  if (e0=='x' && e1=='b' && e2=='o') {printf("feature myname=\"OliPow 2.2.3\" colors=0 done=1\n"); fflush(stdout); xboard=1; }
   if (e0=='q') if (e1=='u' && e2=='i') exit(0);
   if (e0=='f') if (e1=='o' && e2=='r') compfarbe=0;
   if (e0=='g') if (e1=='o') compfarbe = dran;

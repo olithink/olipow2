@@ -11,3 +11,6 @@ olipow: $(DLOBJS) $(OBJS)
 	gcc $(CFLAGS) -o olipow $(DLOBJS) $(DLLIBS)
 
 $(DLOBJS): main.h Makefile
+
+clean:
+	rm *.o olipow

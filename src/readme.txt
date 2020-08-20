@@ -1,4 +1,4 @@
-OliPow, Version 2.2.2, (c) 1997 Oliver Brausch, Oliver.Brausch@uni-bayreuth.de
+OliPow, Version 2.2.3, (c) 1997 Oliver Brausch, ob112@web.de
         C (Ansi) 
 
 Options: 
